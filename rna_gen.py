@@ -2,11 +2,14 @@ import random
 import argparse
 
 
-def gen_rand_segment(string):
+def gen_rand_segment(string, max_segment_len):
     n = len(string)
-    begining = random.randint(0, n - 1)
-    end = min(n, random.randint(0, max_segment_len) + begining)
-    return string[begining:end]
+    segment = ''
+    while len(segment) < max_segment_len // 2:
+        begining = random.randint(0, n - 1)
+        end = min(n, random.randint(max_segment_len // 2, max_segment_len) + begining)
+        segment = string[begining:end]
+    return segment
 
 
 if __name__ == '__main__':
@@ -28,7 +31,7 @@ if __name__ == '__main__':
     original = ''.join([rna_dict[random.randint(0,3)] for _ in range(n)])
     print(original)
 
-    output = "\n".join([gen_rand_segment(original) for _ in range(num_segments)])
+    output = "\n".join([gen_rand_segment(original,max_segment_len) for _ in range(num_segments)])
 
     with open("input.txt", "w") as file:
         file.write(output)
